@@ -6,6 +6,7 @@ var tasksInProgressEl = document.querySelector('#tasks-in-progress');
 var tasksCompletedEl = document.querySelector('#tasks-completed')
 //task array for local stporage//
 var tasks = [];
+
 var taskFormHandler = function(event){
 
     event.preventDefault();
@@ -242,6 +243,60 @@ var dragLeaveHandler = function(event) {
 var saveTasks = function() {
   localStorage.setItem("tasks",JSON.stringify(tasks));
 }
+var loadTasks = function(){
+  //get task from local storage
+  var savedTasks= localStorage.getItem("tasks")
+  
+  if( !savedTasks ) {
+    
+    return false
+  }
+  //coverts task from string to array of objects
+  savedTasks = JSON.parse(savedTasks);
+  
+  //iterates through tasks array and creates task elemnts on the page from it
+  for(i =0; i < savedTasks.length;i++){
+    createTaskEl(savedTasks[i]);
+  }
+
+
+}
+
+
+//     tasks[i].id = taskIdCounter
+     
+    
+
+
+//   var listItemEl = document.createElement("li")
+//     listItemEl.className="task-item"
+//   listItemEl.setAttribute("data-task-id", tasks[i].id )
+ 
+//  listItemEl.setAttribute("draggable","true")
+ 
+
+//  var taskInfoEl = document.createElement("div").className = "task-info"
+//  taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
+  
+ 
+  
+ 
+// var taskActionsEl = createTaskActions(tasks[i].id)
+ 
+// listItemEl.appendChild(taskInfoEl)
+// listItemEl.appendChild(taskActionsEl)
+  
+  
+//  console.log(listItemEl)
+
+
+  // taskInfoEl.appendChild(listItemEl)
+  
+  // var taskActionsEl = createTaskActions(tasks[i].id)
+
+  // listItemEl.appendChild(taskActionsEl)
+  // console.log(listItemEl)
+
 formEl.addEventListener("submit", taskFormHandler);
 
 pageContentEl.addEventListener("click", taskButtonHandler);
@@ -252,3 +307,4 @@ pageContentEl.addEventListener("dragstart", dragTaskHandler);
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 pageContentEl.addEventListener("drop", dropTaskHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
+loadTasks()
